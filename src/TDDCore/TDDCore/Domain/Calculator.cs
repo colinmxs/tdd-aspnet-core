@@ -9,17 +9,17 @@ namespace TDDCore.Domain
     {
         public object Calculate(int v1, int v2)
         {
-            throw new NotImplementedException();
+            return v1 + v2;
         }
 
         public object Calculate(int v1, int v2, int v3)
         {
-            throw new NotImplementedException();
+            return v1 + v2 + v3;
         }
 
         public object Calculate(int v1, int v2, int v3, int v4)
         {
-            throw new NotImplementedException();
+            return v1 + v2 + v3 + v4;
         }
     }
 }
