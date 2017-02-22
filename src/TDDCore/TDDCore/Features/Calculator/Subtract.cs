@@ -8,30 +8,11 @@ namespace TDDCore.Features.Calculator
     {
         public class Query : IRequest<int>
         {
-            internal int v1;
-            internal int v2;
-            internal int v3;
-            internal int v4;
+            internal int[] Ints;
 
-            public Query(int v1, int v2)
+            public Query(params int[] ints)
             {
-                this.v1 = v1;
-                this.v2 = v2;
-            }
-
-            public Query(int v1, int v2, int v3)
-            {
-                this.v1 = v1;
-                this.v2 = v2;
-                this.v3 = v3;
-            }
-
-            public Query(int v1, int v2, int v3, int v4)
-            {
-                this.v1 = v1;
-                this.v2 = v2;
-                this.v3 = v3;
-                this.v4 = v4;
+                Ints = ints;
             }
         }
 
@@ -39,7 +20,12 @@ namespace TDDCore.Features.Calculator
         {
             public async Task<int> Handle(Query message)
             {
-                return message.v1 - message.v2 - message.v3 - message.v4;
+                var difference = message.Ints[0];
+                for(var i = 1; i < message.Ints.Length; i++)
+                {
+                    difference = difference - message.Ints[i];
+                }
+                return difference;
             }
         }
     }
