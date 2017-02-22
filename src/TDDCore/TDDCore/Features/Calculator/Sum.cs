@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System;
+using System.Threading.Tasks;
+using MediatR;
 namespace TDDCore.Features.Calculator
 {
     public class Sum
@@ -29,6 +31,14 @@ namespace TDDCore.Features.Calculator
                 this.v2 = v2;
                 this.v3 = v3;
                 this.v4 = v4;
+            }
+        }
+
+        public class QueryHandler : IAsyncRequestHandler<Query, int>
+        {
+            public Task<int> Handle(Query message)
+            {
+                throw new NotImplementedException();
             }
         }
     }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.Razor;
+using MediatR;
 
 namespace TDDCore
 {
@@ -30,6 +31,7 @@ namespace TDDCore
         {
             // Add framework services.
             services.AddMvc();
+            services.AddMediatR();
             services.Configure<RazorViewEngineOptions>(options => {
                 options.ViewLocationExpanders.Add(new ViewLocationExpander());
             });
