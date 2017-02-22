@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 namespace TDDCore.Features.Calculator
 {
     public class Sum
@@ -18,6 +14,13 @@ namespace TDDCore.Features.Calculator
             {
                 this.v1 = v1;
                 this.v2 = v2;
+            }
+
+            public Query(int v1, int v2, int v3)
+            {
+                this.v1 = v1;
+                this.v2 = v2;
+                this.v3 = v3;
             }
 
             public Query(int v1, int v2, int v3, int v4)

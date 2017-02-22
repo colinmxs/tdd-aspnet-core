@@ -1,40 +1,38 @@
-﻿using FakeItEasy;
-using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace TDDCore.Tests
 {
+    using System.Text;
+    using System;
+    using System.IO;
+    using System.Reflection;
+    using System.Threading.Tasks;
+    using FakeItEasy;
+    using MediatR;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+
     public class TestFixture
     {
+        private static readonly IConfigurationRoot _configuration;
         private static readonly IServiceScopeFactory _scopeFactory;
 
         static TestFixture()
         {
-            var host = new WebHostBuilder()
-                 .UseKestrel()
-                 .UseContentRoot(Directory.GetCurrentDirectory())
-                 .UseIISIntegration()
-                 .UseStartup<Startup>()
-                 .UseApplicationInsights()
-                 .Build() as IHostingEnvironment;
-
-            A.CallTo(() => host.ContentRootPath).Returns(Directory.GetCurrentDirectory());
+            var host = A.Fake<IHostingEnvironment>();            
+            A.CallTo(() => host.ContentRootPath)
+                .Returns("C:\\Users\\colinsmith1\\Source\\Repos\\tdd-aspnet-core\\src\\TDDCore\\TDDCore.Tests\\");
+            //.Returns(Directory.GetCurrentDirectory());
 
             var startup = new Startup(host);
+            _configuration = startup.Configuration;
             var services = new ServiceCollection();
             startup.ConfigureServices(services);
             var provider = services.BuildServiceProvider();
             _scopeFactory = provider.GetService<IServiceScopeFactory>();
-        }      
+        }
+        
         public static async Task ExecuteScopeAsync(Func<IServiceProvider, Task> action)
         {
             using (var scope = _scopeFactory.CreateScope())
@@ -75,6 +73,7 @@ namespace TDDCore.Tests
                 return mediator.Send(request);
             });
         }
+
         public static Task SendAsync(IRequest request)
         {
             return ExecuteScopeAsync(sp =>
@@ -84,6 +83,5 @@ namespace TDDCore.Tests
                 return mediator.Send(request);
             });
         }
-
     }
 }
